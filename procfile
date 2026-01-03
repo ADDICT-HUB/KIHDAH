@@ -1,2 +1,3 @@
 web: node server.js
-worker: node src/index.js
+worker: node src/main.js
+release: echo "KIH-DAH Quantum Bot deploying..."
