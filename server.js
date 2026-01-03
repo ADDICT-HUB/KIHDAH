@@ -1,145 +1,140 @@
-require('dotenv').config();
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-const { startBot, getQR } = require('./src/botManager');
-const logger = require('./src/utils/logger');
+// Add this route for session validation
+app.post('/api/validate-session', (req, res) => {
+    const { session_id } = req.body;
+    const sessionValidator = require('./src/sessionValidator');
+    
+    if (!session_id) {
+        return res.json({
+            valid: false,
+            error: 'No session ID provided',
+            format: 'KIHDAH:~[16 hex characters]',
+            example: 'KIHDAH:~A1B2C3D4E5F67890'
+        });
+    }
+    
+    const extracted = sessionValidator.extractSessionId(session_id);
+    const isValid = sessionValidator.validateSessionId(extracted);
+    
+    if (isValid) {
+        res.json({
+            valid: true,
+            session_id: extracted,
+            message: '✅ Valid KIHDAH:~ session ID',
+            format: 'KIHDAH:~[16 hex characters]'
+        });
+    } else {
+        res.json({
+            valid: false,
+            error: 'Invalid session format',
+            received: session_id.substring(0, 50) + '...',
+            required_format: 'KIHDAH:~[16 hex characters]',
+            example: 'KIHDAH:~A1B2C3D4E5F67890',
+            get_session: 'https://xgurupairing1-b1268276f8b5.herokuapp.com/pair'
+        });
+    }
+});
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
-
-const PORT = process.env.PORT || 3000;
-
-// Middleware
-app.use(express.json());
-app.use(express.static('public'));
-app.use(express.urlencoded({ extended: true }));
-
-// Web Dashboard Routes
-app.get('/', (req, res) => {
+// Update web panel to show strict requirements
+app.get('/panel', (req, res) => {
+    const sessionValidator = require('./src/sessionValidator');
+    const rules = sessionValidator.getRules();
+    
     res.send(`
     <!DOCTYPE html>
     <html>
     <head>
-        <title>KIH DAH Bot - GuruTech</title>
+        <title>KIH DAH Bot - Session Validation</title>
         <style>
-            body { font-family: Arial; text-align: center; padding: 50px; }
-            .container { max-width: 800px; margin: auto; }
-            .qr-box { margin: 20px; padding: 20px; border: 2px solid #333; }
-            input { padding: 10px; margin: 10px; width: 300px; }
-            button { padding: 10px 20px; background: #25D366; color: white; border: none; cursor: pointer; }
+            .valid { color: #25D366; }
+            .invalid { color: #FF6B6B; }
+            .kihdah-format {
+                background: #1a1a1a;
+                color: #4ECDC4;
+                padding: 10px;
+                border-radius: 5px;
+                font-family: monospace;
+                margin: 10px 0;
+            }
+            .rule-box {
+                border: 2px solid #333;
+                padding: 15px;
+                margin: 10px 0;
+                border-radius: 5px;
+            }
         </style>
     </head>
     <body>
-        <div class="container">
-            <h1>🤖 KIH DAH WhatsApp Bot</h1>
-            <p>Created by <b>GuruTech</b></p>
-            
-            <div id="panel">
-                <h3>Choose Authentication Method:</h3>
-                <button onclick="showQRMethod()">📱 Scan QR Code</button>
-                <button onclick="showSessionMethod()">🔑 Enter Session ID</button>
-                
-                <div id="qrSection" style="display:none;">
-                    <div class="qr-box" id="qrCode"></div>
-                    <p>Scan this QR code with WhatsApp</p>
-                </div>
-                
-                <div id="sessionSection" style="display:none;">
-                    <input type="text" id="sessionId" placeholder="Enter Session ID or Pairing Code">
-                    <button onclick="connectWithSession()">Connect</button>
-                </div>
-                
-                <div id="status"></div>
-            </div>
+        <h1>🔐 KIH DAH Session Validation</h1>
+        
+        <div class="rule-box">
+            <h3>⚠️ STRICT SESSION FORMAT REQUIRED</h3>
+            <p>Only sessions starting with <b>KIHDAH:~</b> are accepted</p>
         </div>
         
-        <script src="/socket.io/socket.io.js"></script>
+        <h3>Required Format:</h3>
+        <div class="kihdah-format">
+            ${rules.format}
+        </div>
+        
+        <h3>Example:</h3>
+        <div class="kihdah-format">
+            ${rules.example}
+        </div>
+        
+        <h3>Get Valid Session:</h3>
+        <a href="https://xgurupairing1-b1268276f8b5.herokuapp.com/pair" 
+           style="background: #FF6B6B; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+           🔗 Generate KIHDAH:~ Session
+        </a>
+        
+        <h3>Validate Your Session:</h3>
+        <form id="validateForm">
+            <textarea id="sessionInput" placeholder="Paste your KIHDAH:~ session ID here" 
+                      style="width: 100%; height: 100px; padding: 10px;"></textarea>
+            <button type="submit" style="padding: 10px 20px; background: #25D366; color: white; border: none; margin-top: 10px;">
+                Validate Session
+            </button>
+        </form>
+        
+        <div id="result"></div>
+        
         <script>
-            const socket = io();
-            const statusDiv = document.getElementById('status');
-            
-            socket.on('qr', (qr) => {
-                document.getElementById('qrCode').innerHTML = qr;
-                statusDiv.innerHTML = '<p style="color:orange">QR Code Generated - Scan Now</p>';
-            });
-            
-            socket.on('connected', () => {
-                statusDiv.innerHTML = '<p style="color:green">✅ Bot Connected Successfully!</p>';
-            });
-            
-            socket.on('error', (msg) => {
-                statusDiv.innerHTML = '<p style="color:red">❌ ' + msg + '</p>';
-            });
-            
-            function showQRMethod() {
-                document.getElementById('qrSection').style.display = 'block';
-                document.getElementById('sessionSection').style.display = 'none';
-                socket.emit('getQR');
-            }
-            
-            function showSessionMethod() {
-                document.getElementById('sessionSection').style.display = 'block';
-                document.getElementById('qrSection').style.display = 'none';
-            }
-            
-            function connectWithSession() {
-                const sessionId = document.getElementById('sessionId').value;
-                if(sessionId) {
-                    socket.emit('session', sessionId);
-                    statusDiv.innerHTML = '<p>Connecting with session...</p>';
+            document.getElementById('validateForm').onsubmit = async (e) => {
+                e.preventDefault();
+                const session = document.getElementById('sessionInput').value;
+                
+                const response = await fetch('/api/validate-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: session })
+                });
+                
+                const result = await response.json();
+                const resultDiv = document.getElementById('result');
+                
+                if (result.valid) {
+                    resultDiv.innerHTML = \`
+                        <div style="background: #25D36620; padding: 15px; border-radius: 5px; margin-top: 10px;">
+                            <h3 style="color: #25D366">✅ Valid Session</h3>
+                            <p><b>Session ID:</b> <code>\${result.session_id}</code></p>
+                            <p>\${result.message}</p>
+                        </div>
+                    \`;
+                } else {
+                    resultDiv.innerHTML = \`
+                        <div style="background: #FF6B6B20; padding: 15px; border-radius: 5px; margin-top: 10px;">
+                            <h3 style="color: #FF6B6B">❌ Invalid Session</h3>
+                            <p><b>Error:</b> \${result.error}</p>
+                            <p><b>Received:</b> <code>\${result.received}</code></p>
+                            <p><b>Required Format:</b> \${result.required_format}</p>
+                            <p><b>Example:</b> <code>\${result.example}</code></p>
+                            <a href="\${result.get_session}" style="color: #FF6B6B">Get valid session →</a>
+                        </div>
+                    \`;
                 }
-            }
+            };
         </script>
     </body>
     </html>
     `);
-});
-
-// API endpoints for panels
-app.post('/api/start', (req, res) => {
-    const { session_id, platform } = req.body;
-    logger.info(`Starting bot from panel - Platform: ${platform}`);
-    res.json({ success: true, message: 'Bot starting...' });
-});
-
-app.get('/api/status', (req, res) => {
-    res.json({ 
-        status: 'running', 
-        bot: 'KIH DAH', 
-        owner: 'GuruTech',
-        uptime: process.uptime()
-    });
-});
-
-// Health check for Render/Heroku
-app.get('/health', (req, res) => {
-    res.status(200).send('OK');
-});
-
-// Start bot when server starts
-io.on('connection', (socket) => {
-    logger.info('Panel user connected');
-    
-    socket.on('getQR', () => {
-        const qr = getQR();
-        if(qr) socket.emit('qr', qr);
-    });
-    
-    socket.on('session', (sessionId) => {
-        logger.info(`Session ID received: ${sessionId.substring(0, 10)}...`);
-        socket.emit('connected', 'Session connected!');
-    });
-});
-
-// Start server
-server.listen(PORT, () => {
-    logger.info(`🚀 KIH DAH Bot Server running on port ${PORT}`);
-    logger.info(`🔗 Panel URL: http://localhost:${PORT}`);
-    
-    // Start WhatsApp bot
-    startBot().catch(err => {
-        logger.error('Failed to start bot:', err);
-    });
 });
