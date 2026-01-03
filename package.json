@@ -1,7 +1,7 @@
 {
   "name": "kih-dah-bot",
   "version": "3.0.0",
-  "description": "Multi-platform WhatsApp Bot by GuruTech - Works on Render, Heroku, Koyeb",
+  "description": "Multi-platform WhatsApp Bot by GuruTech",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -10,7 +10,7 @@
     "heroku-postbuild": "echo 'Heroku build complete'",
     "render-build": "echo 'Ready for Render deployment'"
   },
-  "keywords": ["whatsapp", "bot", "kihdah", "gurutech", "multi-platform"],
+  "keywords": ["whatsapp", "bot", "kihdah", "gurutech"],
   "author": "GuruTech",
   "license": "MIT",
   "engines": {
