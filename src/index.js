@@ -1,36 +1,48 @@
 require('dotenv').config();
-const { startBot } = require('./botManager');
-const logger = require('./utils/logger');
+const logger = require('./src/utils/logger');
 
-// Performance optimization
-process.env.UV_THREADPOOL_SIZE = 128;
-require('events').EventEmitter.defaultMaxListeners = 100;
+console.log(`
+╔══════════════════════════════════════╗
+║      🤖 KIH DAH BOT v3.0.0          ║
+║      👑 Owner: GuruTech              ║
+║      🔐 Session: KIHDAH:~ Only      ║
+╚══════════════════════════════════════╝
+`);
 
-// Fast startup
-const startTime = Date.now();
-
-async function main() {
-    logger.info('🚀 Starting KIH DAH Bot - Optimized Version');
-    logger.info('👑 Owner: GuruTech');
-    logger.info('⚡ Platform: ' + (process.env.PLATFORM || 'Multi-Cloud'));
+// Check if we need web server (Heroku/Render has PORT)
+if (process.env.PORT) {
+    logger.info('🌐 Starting web server mode (Heroku/Render)...');
     
-    try {
-        await startBot();
-        const startupTime = Date.now() - startTime;
-        logger.success(`✅ Bot started in ${startupTime}ms`);
-        
-        // Performance monitor
-        setInterval(() => {
-            const memUsage = process.memoryUsage();
-            if (memUsage.heapUsed > 500 * 1024 * 1024) { // 500MB threshold
-                logger.warn(`High memory usage: ${(memUsage.heapUsed / 1024 / 1024).toFixed(2)}MB`);
-            }
-        }, 60000); // Check every minute
-        
-    } catch (error) {
-        logger.error('❌ Failed to start bot:', error);
-        process.exit(1);
-    }
+    const express = require('express');
+    const app = express();
+    const PORT = process.env.PORT;
+    
+    app.get('/', (req, res) => {
+        res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head><title>KIH DAH Bot</title></head>
+        <body>
+            <h1>🤖 KIH DAH WhatsApp Bot</h1>
+            <p>Running on Heroku...</p>
+        </body>
+        </html>
+        `);
+    });
+    
+    app.get('/health', (req, res) => {
+        res.status(200).send('OK');
+    });
+    
+    app.listen(PORT, () => {
+        logger.info(`✅ Web server on port ${PORT}`);
+        // Start the bot
+        require('./src/index.js');
+    });
+    
+} else {
+    logger.info('🤖 Starting bot mode (Local)...');
+    require('./src/index.js');
 }
 
 // Error handling
@@ -41,17 +53,3 @@ process.on('uncaughtException', (error) => {
 process.on('unhandledRejection', (reason, promise) => {
     logger.error('UNHANDLED REJECTION at:', promise, 'reason:', reason);
 });
-
-// Graceful shutdown
-process.on('SIGTERM', () => {
-    logger.info('🛑 Received SIGTERM, shutting down gracefully...');
-    process.exit(0);
-});
-
-process.on('SIGINT', () => {
-    logger.info('🛑 Received SIGINT, shutting down...');
-    process.exit(0);
-});
-
-// Start with high priority
-setImmediate(main);
