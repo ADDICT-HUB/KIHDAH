@@ -1,5 +1,5 @@
 require('dotenv').config();
-const logger = require('./src/utils/logger');
+const logger = require('./utils/logger');
 
 console.log(`
 ╔══════════════════════════════════════╗
