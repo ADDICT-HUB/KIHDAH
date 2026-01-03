@@ -1,89 +1,237 @@
 {
-  "name": "KIH DAH WhatsApp Bot",
-  "description": "Ultra-fast WhatsApp bot with Base64 session support by GuruTech",
+  "name": "KIH-DAH-QUANTUM",
+  "description": "Advanced WhatsApp bot developed by GuruTech",
+  "keywords": ["bot", "whatsapp", "baileys", "kih-dah", "gurutech"],
+  "logo": "https://files.catbox.moe/atpgij.jpg",
   "repository": "https://github.com/ADDICT-HUB/KIHDAH",
-  "logo": "https://raw.githubusercontent.com/ADDICT-HUB/KIHDAH/main/assets/logo.png",
-  "keywords": ["whatsapp", "bot", "kih-dah", "gurutech", "baileys", "addict-hub"],
+  "success_url": "/",
+  "stack": "heroku-24",
   "env": {
-    "BOT_NAME": {
-      "description": "Your bot name",
-      "value": "KIH DAH",
-      "required": true
-    },
-    "OWNER_NAME": {
-      "description": "Bot owner name",
-      "value": "GuruTech",
-      "required": true
-    },
-    "BOT_PREFIX": {
-      "description": "Bot command prefix",
+    "PREFIX": {
+      "description": "Choose your prefix for your bot",
       "value": ".",
       "required": true
     },
+    "OWNER_NAME": {
+      "description": "Owner name",
+      "value": "GuruTech",
+      "required": true
+    },
     "OWNER_NUMBER": {
-      "description": "Your WhatsApp number with country code (e.g., 919876543210)",
+      "description": "Enter your number with country code eg, 2547xxxxxxx",
       "value": "",
       "required": true
     },
+    "BOT_NAME": {
+      "description": "Name for your bot",
+      "value": "KIH-DAH",
+      "required": true
+    },
     "SESSION_ID": {
-      "description": "Base64 encoded WhatsApp session (Get from: https://xgurupairing1-b1268276f8b5.herokuapp.com/pair)",
+      "description": "Your Base64 session ID (Get from: https://xgurupairing1-b1268276f8b5.herokuapp.com/pair)",
       "value": "",
+      "required": false
+    },
+    "PUBLIC_MODE": {
+      "description": "Type yes for public mode or no for private mode",
+      "value": "yes",
+      "required": true
+    },
+    "AUTO_REACT_STATUS": {
+      "description": "Enter yes for your bot to auto like status",
+      "value": "yes",
+      "required": false
+    },
+    "STATUS_REACT_EMOJIS": {
+      "description": "Enter your auto like status emojis (comma separated)",
+      "value": "💚,🚀,🌎,✅,🤖,⚡",
+      "required": false
+    },
+    "AUTO_REPLY_STATUS": {
+      "description": "Enter yes for your bot to notify people that you have viewed their status",
+      "value": "no",
+      "required": false
+    },
+    "REPLY_STATUS_TEXT": {
+      "description": "Enter message to notify people that you have viewed their status",
+      "value": "Your status has been viewed successfully ✅",
+      "required": false
+    },
+    "AUTO_READ_STATUS": {
+      "description": "Your status will be read automatically (yes/no)",
+      "value": "yes",
+      "required": false
+    },
+    "AUTO_DOWNLOAD_STATUS": {
+      "description": "Status will be sent to your inbox automatically (yes/no)",
+      "value": "no",
+      "required": false
+    },
+    "AUTO_READ": {
+      "description": "Messages will be marked as read automatically (yes/no)",
+      "value": "no",
+      "required": false
+    },
+    "AUTO_REJECT_CALL": {
+      "description": "Enter yes for your bot to auto reject calls",
+      "value": "yes",
+      "required": false
+    },
+    "AUTO_BIO": {
+      "description": "Enter yes for your bot to auto update bio",
+      "value": "no",
+      "required": false
+    },
+    "STARTING_BOT_MESSAGE": {
+      "description": "Enable starting message (yes/no)",
+      "value": "yes",
+      "required": false
+    },
+    "PRESENCE": {
+      "description": "Presence mode: 1=online, 2=typing, 3=recording",
+      "value": "1",
+      "required": false
+    },
+    "ANTIDELETE_SENT_INBOX": {
+      "description": "Enable anti-delete to be sent inbox (yes/no)",
+      "value": "yes",
+      "required": false
+    },
+    "ANTIDELETE_RECOVER_CONVENTION": {
+      "description": "Enable anti-delete deleted to recover in conversation (yes/no)",
+      "value": "no",
+      "required": false
+    },
+    "GROUPANTILINK": {
+      "description": "Enable anti-link in groups (yes/no)",
+      "value": "yes",
+      "required": false
+    },
+    "CHATBOT": {
+      "description": "Enable text chatbot (yes/no)",
+      "value": "no",
+      "required": false
+    },
+    "WELCOME_MESSAGE": {
+      "description": "Enable welcoming message in groups (yes/no)",
+      "value": "yes",
+      "required": false
+    },
+    "GOODBYE_MESSAGE": {
+      "description": "Enable goodbye in groups (yes/no)",
+      "value": "yes",
+      "required": false
+    },
+    "AUDIO_CHATBOT": {
+      "description": "Enable audio chatbot (yes/no)",
+      "value": "no",
+      "required": false
+    },
+    "BOT_URL": {
+      "description": "Image or video url for your bot menu",
+      "value": "https://files.catbox.moe/atpgij.jpg",
+      "required": false
+    },
+    "HEROKU_API_KEY": {
+      "description": "Enter your Heroku API key to be able to control your vars",
+      "value": "",
+      "required": false
+    },
+    "HEROKU_APP_NAME": {
+      "description": "Enter your Heroku app name to be able to control vars",
+      "value": "",
+      "required": false
+    },
+    "AUTO_REACT": {
+      "description": "Enter your auto react messages (yes/no)",
+      "value": "no",
+      "required": false
+    },
+    "MENU_TOP_LEFT": {
+      "description": "Menu top left design",
+      "value": "┌─✦",
+      "required": false
+    },
+    "MENU_BOT_NAME_LINE": {
+      "description": "Bot name line",
+      "value": "│ ",
+      "required": false
+    },
+    "MENU_BOTTOM_LEFT": {
+      "description": "Menu bottom left",
+      "value": "└┬✦",
+      "required": false
+    },
+    "MENU_GREETING_LINE": {
+      "description": "Greeting line",
+      "value": "┌┤ ",
+      "required": false
+    },
+    "MENU_DIVIDER": {
+      "description": "Menu divider",
+      "value": "│└────────┈✦",
+      "required": false
+    },
+    "MENU_USER_LINE": {
+      "description": "User line in menu",
+      "value": "│👑 ",
+      "required": false
+    },
+    "MENU_DATE_LINE": {
+      "description": "Date line in menu",
+      "value": "│📅 ",
+      "required": false
+    },
+    "MENU_TIME_LINE": {
+      "description": "Time line in menu",
+      "value": "│⏰ ",
+      "required": false
+    },
+    "MENU_STATS_LINE": {
+      "description": "Stats line in menu",
+      "value": "│⚡ ",
+      "required": false
+    },
+    "MENU_BOTTOM_DIVIDER": {
+      "description": "Bottom divider of menu",
+      "value": "└─────────────┈✦",
+      "required": false
+    },
+    "ANTI_BUG": {
+      "description": "Enable anti-bug protection (yes/no)",
+      "value": "yes",
+      "required": false
+    },
+    "AUTO_TYPING": {
+      "description": "Enable auto typing indicator (yes/no)",
+      "value": "yes",
+      "required": false
+    },
+    "AUTO_RECORDING": {
+      "description": "Enable auto recording indicator (yes/no)",
+      "value": "no",
       "required": false
     },
     "PLATFORM": {
       "description": "Deployment platform",
       "value": "heroku",
-      "required": true
-    },
-    "AUTO_REACT_STATUS": {
-      "description": "Auto-react to status updates",
-      "value": "true",
-      "required": false
-    },
-    "AUTO_VIEW_STATUS": {
-      "description": "Auto-view status updates",
-      "value": "true",
-      "required": false
-    },
-    "ANTI_DELETE_STATUS": {
-      "description": "Notify when messages are deleted",
-      "value": "true",
-      "required": false
-    },
-    "ANTI_LINK": {
-      "description": "Block links in groups",
-      "value": "true",
-      "required": false
-    },
-    "ANTI_CALL": {
-      "description": "Block/reject calls",
-      "value": "true",
-      "required": false
-    },
-    "ANTI_BUG": {
-      "description": "Detect and block exploits",
-      "value": "true",
-      "required": false
-    },
-    "AUTO_TYPING": {
-      "description": "Show typing indicator",
-      "value": "true",
-      "required": false
-    },
-    "AUTO_RECORDING": {
-      "description": "Show recording indicator",
-      "value": "false",
-      "required": false
-    },
-    "WELCOME_MESSAGE": {
-      "description": "Welcome new group members",
-      "value": "true",
       "required": false
     },
     "LOG_LEVEL": {
-      "description": "Logging level (debug, info, warn, error)",
+      "description": "Logging level (debug/info/warn/error)",
       "value": "info",
       "required": false
+    },
+    "URL_AUTO_DETECT": {
+      "description": "Auto detect and analyze URLs (yes/no)",
+      "value": "yes",
+      "required": false
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
     }
   },
   "buildpacks": [
@@ -92,19 +240,6 @@
     },
     {
       "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
-    },
-    {
-      "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"
     }
-  ],
-  "formation": {
-    "web": {
-      "quantity": 1,
-      "size": "free"
-    },
-    "worker": {
-      "quantity": 1,
-      "size": "free"
-    }
-  }
+  ]
 }
