@@ -1,3 +1,4 @@
+
 const { makeWASocket, useMultiFileAuthState, DisconnectReason } = require('@whiskeysockets/baileys');
 const qrcode = require('qrcode-terminal');
 const logger = require('./utils/logger');
@@ -15,6 +16,7 @@ class BotManager {
         this.authDir = path.join(process.cwd(), 'auth');
         this.sessionData = null;
         this.platform = process.env.PLATFORM || 'unknown';
+        this.plugins = []; // Initialize plugins array
     }
 
     // STRICT: Only accept KIHDAH:~ sessions
@@ -112,10 +114,12 @@ class BotManager {
             
             const { state, saveCreds } = authState;
             
+            // FIX: Don't pass logger to avoid issues, or use proper pino logger
             sock = makeWASocket({
                 auth: state,
                 printQRInTerminal: true,
-                logger: logger.pinoLogger,
+                // Remove or fix logger parameter:
+                // logger: logger.pinoLogger, // Comment this out
                 browser: ['KIHDAH', 'Quantum', '3.0.0'],
                 syncFullHistory: false,
                 markOnlineOnConnect: true,
@@ -131,8 +135,8 @@ class BotManager {
                 await this.handleConnectionUpdate(update, saveCreds);
             });
             
-            // Load plugins
-            this.loadPlugins();
+            // FIX: Add loadPlugins method or remove the call
+            this.loadPlugins(); // This will now work with the method below
             
             // Start message handler
             this.startMessageHandler();
@@ -152,6 +156,65 @@ class BotManager {
             
             throw error;
         }
+    }
+
+    // FIX: Add the missing loadPlugins method
+    loadPlugins() {
+        try {
+            logger.info('🔌 Loading plugins...');
+            // You can implement your plugin loading logic here
+            // For now, just log that plugins are loaded
+            logger.success('✅ Plugins loaded (0 plugins)');
+        } catch (error) {
+            logger.warn('⚠️ Could not load plugins:', error.message);
+        }
+    }
+
+    // FIX: Add the missing startMessageHandler method
+    startMessageHandler() {
+        try {
+            sock.ev.on('messages.upsert', async ({ messages }) => {
+                try {
+                    const message = messages[0];
+                    
+                    if (!message.message || message.key.fromMe) {
+                        return;
+                    }
+                    
+                    const text = this.extractMessageText(message.message);
+                    
+                    // Basic ping command
+                    if (text === '!ping' || text === '.ping') {
+                        await sock.sendMessage(message.key.remoteJid, {
+                            text: '🏓 Pong! KIHDAH Bot is online!'
+                        });
+                    }
+                    
+                } catch (error) {
+                    logger.error('Message handler error:', error);
+                }
+            });
+            
+            logger.success('✅ Message handler started');
+        } catch (error) {
+            logger.error('❌ Failed to start message handler:', error);
+        }
+    }
+
+    extractMessageText(messageContent) {
+        if (messageContent.conversation) {
+            return messageContent.conversation;
+        }
+        if (messageContent.extendedTextMessage?.text) {
+            return messageContent.extendedTextMessage.text;
+        }
+        if (messageContent.imageMessage?.caption) {
+            return messageContent.imageMessage.caption;
+        }
+        if (messageContent.videoMessage?.caption) {
+            return messageContent.videoMessage.caption;
+        }
+        return '';
     }
 
     async createAuthFromSessionData() {
@@ -220,7 +283,16 @@ class BotManager {
         }
     }
 
-    // ... rest of the methods remain the same ...
+    cleanAuthFiles() {
+        try {
+            if (fs.existsSync(this.authDir)) {
+                fs.rmSync(this.authDir, { recursive: true });
+                logger.info('🧹 Cleaned auth files');
+            }
+        } catch (error) {
+            logger.warn('Could not clean auth files:', error.message);
+        }
+    }
 
     onConnected() {
         const sessionId = this.sessionData?.sessionId || 'Unknown';
@@ -252,6 +324,21 @@ Type ${process.env.BOT_PREFIX || '.'}menu for commands
                 }
             }, 3000);
         }
+    }
+
+    // Helper method to get current socket
+    getSocket() {
+        return sock;
+    }
+
+    // Helper method to get connection status
+    isBotConnected() {
+        return isConnected;
+    }
+
+    // Helper method to get QR code
+    getQRCode() {
+        return qrCode;
     }
 }
 
