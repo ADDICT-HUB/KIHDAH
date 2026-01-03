@@ -51,16 +51,16 @@ if (process.env.PORT) {
     
     app.listen(PORT, () => {
         logger.success(`✅ Web server running on port ${PORT}`);
-        // Start the WhatsApp bot - FIXED LINE
+        // Start the WhatsApp bot - FIXED
         try {
-            const { startBot } = require('./botManager');
-            startBot().catch(err => logger.error('WhatsApp bot error:', err.message));
+            const botManager = require('./botManager');
+            botManager.startWhatsApp().catch(err => logger.error('WhatsApp bot error:', err.message));
         } catch (error) {
             logger.error('Failed to start bot:', error.message);
             // Try alternative
             try {
-                const { startBot } = require('./botManager');
-                startBot().catch(err => logger.error('Bot error:', err.message));
+                const botManager = require('./botManager');
+                botManager.startWhatsApp().catch(err => logger.error('Bot error:', err.message));
             } catch (err2) {
                 logger.error('Could not start bot at all');
             }
@@ -69,16 +69,16 @@ if (process.env.PORT) {
     
 } else {
     logger.info('🤖 Starting bot mode (Local)...');
-    // Try to load the bot - FIXED LINE
+    // Try to load the bot - FIXED
     try {
-        const { startBot } = require('./sbotManager');
-        startBot().catch(err => logger.error('Bot error:', err.message));
+        const botManager = require('./botManager');
+        botManager.startWhatsApp().catch(err => logger.error('Bot error:', err.message));
     } catch (error) {
         logger.error('Failed to load src/index.js:', error.message);
         // Try botManager directly
         try {
-            const { startBot } = require('./botManager');
-            startBot().catch(err => logger.error('Bot error:', err.message));
+            const botManager = require('./botManager');
+            botManager.startWhatsApp().catch(err => logger.error('Bot error:', err.message));
         } catch (err2) {
             logger.error('No bot files found');
         }
