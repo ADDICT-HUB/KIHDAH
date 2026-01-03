@@ -1,0 +1,110 @@
+{
+  "name": "KIH DAH WhatsApp Bot",
+  "description": "Ultra-fast WhatsApp bot with Base64 session support by GuruTech",
+  "repository": "https://github.com/YOUR-USERNAME/kih-dah-bot",
+  "logo": "https://raw.githubusercontent.com/YOUR-USERNAME/kih-dah-bot/main/assets/logo.png",
+  "keywords": ["whatsapp", "bot", "kih-dah", "gurutech", "baileys"],
+  "env": {
+    "BOT_NAME": {
+      "description": "Your bot name",
+      "value": "KIH DAH",
+      "required": true
+    },
+    "OWNER_NAME": {
+      "description": "Bot owner name",
+      "value": "GuruTech",
+      "required": true
+    },
+    "BOT_PREFIX": {
+      "description": "Bot command prefix",
+      "value": ".",
+      "required": true
+    },
+    "OWNER_NUMBER": {
+      "description": "Your WhatsApp number with country code (e.g., 919876543210)",
+      "value": "",
+      "required": true
+    },
+    "SESSION_ID": {
+      "description": "Base64 encoded WhatsApp session (get from session generator). Leave empty for QR code.",
+      "value": "",
+      "required": false
+    },
+    "PLATFORM": {
+      "description": "Deployment platform",
+      "value": "heroku",
+      "required": true
+    },
+    "AUTO_REACT_STATUS": {
+      "description": "Auto-react to status updates",
+      "value": "true",
+      "required": false
+    },
+    "AUTO_VIEW_STATUS": {
+      "description": "Auto-view status updates",
+      "value": "true",
+      "required": false
+    },
+    "ANTI_DELETE_STATUS": {
+      "description": "Notify when messages are deleted",
+      "value": "true",
+      "required": false
+    },
+    "ANTI_LINK": {
+      "description": "Block links in groups",
+      "value": "true",
+      "required": false
+    },
+    "ANTI_CALL": {
+      "description": "Block/reject calls",
+      "value": "true",
+      "required": false
+    },
+    "ANTI_BUG": {
+      "description": "Detect and block exploits",
+      "value": "true",
+      "required": false
+    },
+    "AUTO_TYPING": {
+      "description": "Show typing indicator",
+      "value": "true",
+      "required": false
+    },
+    "AUTO_RECORDING": {
+      "description": "Show recording indicator",
+      "value": "false",
+      "required": false
+    },
+    "WELCOME_MESSAGE": {
+      "description": "Welcome new group members",
+      "value": "true",
+      "required": false
+    },
+    "LOG_LEVEL": {
+      "description": "Logging level (debug, info, warn, error)",
+      "value": "info",
+      "required": false
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+    },
+    {
+      "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  }
+}
