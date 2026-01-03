@@ -36,13 +36,13 @@ if (process.env.PORT) {
     
     app.listen(PORT, () => {
         logger.info(`✅ Web server on port ${PORT}`);
-        // Start the bot
-        require('./src/index.js');
+        // Start the bot - FIX THIS LINE!
+        require('./src/main.js');  // Changed from './src/index.js'
     });
     
 } else {
     logger.info('🤖 Starting bot mode (Local)...');
-    require('./src/index.js');
+    require('./src/main.js');  // Changed from './src/index.js'
 }
 
 // Error handling
