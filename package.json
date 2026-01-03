@@ -1,8 +1,8 @@
 {
   "name": "kih-dah-bot",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Multi-platform WhatsApp Bot by GuruTech",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
@@ -14,7 +14,8 @@
   "author": "GuruTech",
   "license": "MIT",
   "engines": {
-    "node": "18.x || 20.x"
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.18",
