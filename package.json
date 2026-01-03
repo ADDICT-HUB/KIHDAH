@@ -1,0 +1,41 @@
+{
+  "name": "kih-dah-bot",
+  "version": "3.0.0",
+  "description": "Multi-platform WhatsApp Bot by GuruTech - Works on Render, Heroku, Koyeb",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/index.js",
+    "kih": "node src/index.js",
+    "heroku-postbuild": "echo 'Skipping build step'",
+    "render-build": "echo 'Ready for Render deployment'"
+  },
+  "keywords": ["whatsapp", "bot", "kihdah", "gurutech", "multi-platform"],
+  "author": "GuruTech",
+  "license": "MIT",
+  "engines": {
+    "node": "18.x || 20.x"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.18",
+    "qrcode-terminal": "^0.12.0",
+    "chalk": "^4.1.2",
+    "dotenv": "^16.3.1",
+    "axios": "^1.6.0",
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2",
+    "moment-timezone": "^0.5.43",
+    "node-cron": "^3.0.3",
+    "fluent-ffmpeg": "^2.1.2",
+    "ytdl-core": "^4.11.5",
+    "youtube-search-api": "^1.1.0",
+    "form-data": "^4.0.0",
+    "google-it": "^1.6.4",
+    "g-i-s": "^2.1.7",
+    "cheerio": "^1.0.0",
+    "pino": "^8.15.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
