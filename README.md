@@ -1,11 +1,16 @@
 <p align="center">
+  <img src="https://files.catbox.moe/atpgij.jpg" width="200" height="200" style="border-radius:50%;border:3px solid #25D366" />
+  <br>
+  <b style="font-size:24px;">🤖 KIH DAH WhatsApp Bot</b>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/KIH-DAH-FF6B6B?style=for-the-badge&logo=whatsapp&logoColor=white" />
   <img src="https://img.shields.io/badge/Version-3.0.0-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" />
   <img src="https://img.shields.io/badge/Owner-GuruTech-5865F2?style=for-the-badge&logo=github&logoColor=white" />
   <img src="https://img.shields.io/badge/Status-Active-00C851?style=for-the-badge" />
 </p>
 
-<h1 align="center">🤖 KIH DAH WhatsApp Bot</h1>
 <p align="center">
   <b>⚡ Ultra-Fast Multi-Feature WhatsApp Bot with Base64 Session Support</b>
   <br>
@@ -18,6 +23,18 @@
   <img src="https://img.shields.io/github/issues/ADDICT-HUB/KIHDAH" />
   <img src="https://img.shields.io/github/license/ADDICT-HUB/KIHDAH" />
   <img src="https://img.shields.io/github/repo-size/ADDICT-HUB/KIHDAH" />
+</p>
+
+---
+
+## 👑 **About The Creator**
+
+<p align="center">
+  <img src="https://files.catbox.moe/atpgij.jpg" width="150" height="150" style="border-radius:50%;border:3px solid #FF6B6B" />
+  <br>
+  <b>GuruTech</b>
+  <br>
+  <i>Creator of KIH DAH Bot</i>
 </p>
 
 ---
@@ -46,15 +63,15 @@
 ## 🚀 **Quick Deploy**
 
 <p align="center">
-  <!-- Heroku Deploy -->
-  <a href="https://heroku.com/deploy?template=https://github.com/ADDICT-HUB/KIHDAH">
-    <img src="https://img.shields.io/badge/Deploy%20to%20Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white" height="50" />
+  <!-- Render Deploy (Recommended) -->
+  <a href="https://render.com/deploy?repo=https://github.com/ADDICT-HUB/KIHDAH">
+    <img src="https://img.shields.io/badge/Deploy%20to%20Render-46E3B7?style=for-the-badge&logo=render&logoColor=white" height="50" />
   </a>
   <br>
   
-  <!-- Render Deploy -->
-  <a href="https://render.com/deploy?repo=https://github.com/ADDICT-HUB/KIHDAH">
-    <img src="https://img.shields.io/badge/Deploy%20to%20Render-46E3B7?style=for-the-badge&logo=render&logoColor=white" height="50" />
+  <!-- Heroku Deploy -->
+  <a href="https://heroku.com/deploy?template=https://github.com/ADDICT-HUB/KIHDAH">
+    <img src="https://img.shields.io/badge/Deploy%20to%20Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white" height="50" />
   </a>
   
   <!-- Koyeb Deploy -->
@@ -73,6 +90,17 @@
     <img src="https://img.shields.io/badge/Run%20on%20Replit-667881?style=for-the-badge&logo=replit&logoColor=white" height="50" />
   </a>
 </p>
+
+---
+
+## ⚠️ **Heroku Eco Dyno Requirement**
+
+<p align="center">
+  <img src="https://files.catbox.moe/atpgij.jpg" width="80" height="80" style="border-radius:50%;vertical-align:middle;margin-right:10px" />
+  <span style="font-size:18px;"><b>Note from GuruTech:</b> Heroku now requires $5/month Eco subscription</span>
+</p>
+
+**Recommended FREE Alternative:** Use **Render.com** button above (no credit card needed)
 
 ---
 
@@ -139,19 +167,33 @@
 
 ## 📋 **Quick Start Guide**
 
+<div align="center">
+  <img src="https://files.catbox.moe/atpgij.jpg" width="100" height="100" style="border-radius:50%;float:left;margin-right:20px" />
+  <div style="text-align:left">
+    <h3>🚀 3-Step Setup by GuruTech</h3>
+    <ol>
+      <li><b>Get Session:</b> Generate Base64 session from link below</li>
+      <li><b>Deploy:</b> Click Render.com button (FREE, no credit card)</li>
+      <li><b>Configure:</b> Fill environment variables and start!</li>
+    </ol>
+  </div>
+</div>
+
+<br clear="both">
+
 ### **Step 1: Get Session**
 [![Session Generator](https://img.shields.io/badge/1️⃣%20Get%20Session%20Here-FF6B6B?style=for-the-badge&logo=heroku&logoColor=white)](https://xgurupairing1-b1268276f8b5.herokuapp.com/pair)
 
-### **Step 2: Deploy**
-[![Deploy Now](https://img.shields.io/badge/2️⃣%20Deploy%20Now-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://heroku.com/deploy?template=https://github.com/ADDICT-HUB/KIHDAH)
+### **Step 2: Deploy (Recommended FREE)**
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ADDICT-HUB/KIHDAH)
 
 ### **Step 3: Configure**
-- Fill Heroku form with your details
+- Fill environment variables
 - Paste Base64 session from Step 1
 - Click "Deploy App"
 
 ### **Step 4: Access Panel**
-- Go to: `https://yourapp.herokuapp.com`
+- Go to: `https://yourapp.onrender.com`
 - Scan QR if needed
 - Bot is ready!
 
