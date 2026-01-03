@@ -51,9 +51,10 @@ if (process.env.PORT) {
     
     app.listen(PORT, () => {
         logger.success(`✅ Web server running on port ${PORT}`);
-        // Start the WhatsApp bot
+        // Start the WhatsApp bot - FIXED LINE
         try {
-            require('./src/index.js');
+            const { startBot } = require('./src/botManager');
+            startBot().catch(err => logger.error('WhatsApp bot error:', err.message));
         } catch (error) {
             logger.error('Failed to start bot:', error.message);
             // Try alternative
@@ -68,9 +69,10 @@ if (process.env.PORT) {
     
 } else {
     logger.info('🤖 Starting bot mode (Local)...');
-    // Try to load the bot
+    // Try to load the bot - FIXED LINE
     try {
-        require('./src/index.js');
+        const { startBot } = require('./src/botManager');
+        startBot().catch(err => logger.error('Bot error:', err.message));
     } catch (error) {
         logger.error('Failed to load src/index.js:', error.message);
         // Try botManager directly
